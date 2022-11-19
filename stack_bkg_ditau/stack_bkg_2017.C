@@ -3,27 +3,27 @@ TCanvas *c1= new TCanvas("c1","stacked hists",0,0,600,600);
  c1->Range(0,0,1,1);
  c1->SetLogy();
 
-TH1 *h[5], *hsignal[4],*h1, *hstat;
-//Double_t bins[13] = {100,150,200,250,300,350,400,450,500,550,650,850, 1500};
+TH1 *h[5], *hsignal[4], *hstat;
 Double_t bins[11] = {100,150,200,250,300,350,400,500,650,850, 1500};
+//Double_t bins[13] = {100,150,200,250,300,350,400,450,500,550,650,850, 1500};
 
-TFile *f1 = TFile::Open("2016bkg/DY_ditau_2016.root");
+TFile *f1 = TFile::Open("2017bkg/DY_ditau_2017.root");
 f1->GetObject("h1",h[0]);
 
-TFile *fstat = TFile::Open("2016bkg/DY_ditau_2016.root");
+TFile *fstat = TFile::Open("2017bkg/DY_ditau_2017.root");
 fstat->GetObject("h1",hstat);
 
-TFile *f2 = TFile::Open("2016bkg/W_ditau_2016.root");
+TFile *f2 = TFile::Open("2017bkg/W_ditau_2017.root");
 f2->GetObject("h1",h[1]);
 
-TFile *f3 = TFile::Open("2016bkg/QCD_ditau_2016.root");
+TFile *f3 = TFile::Open("2017bkg/QCD_ditau_2017.root");
 f3->GetObject("h1",h[2]);
 
 
-TFile *f4 = TFile::Open("2016bkg/SingleTop_ditau_2016.root");
+TFile *f4 = TFile::Open("2017bkg/SingleTop_ditau_2017.root");
 f4->GetObject("h1",h[3]);
 
-TFile *f5 = TFile::Open("2016bkg/VV_ditau_2016.root");
+TFile *f5 = TFile::Open("2017bkg/VV_ditau_2017.root");
 f5->GetObject("h1",h[4]);
 
 
@@ -42,7 +42,7 @@ f71->GetObject("NRecoBJet/DiTauReconstructableMass",hsignal[3]);
 
 for(int i=0; i<4; i++){
 double xsec[4] = {0.1994, 0.02174, 0.8273, 0.06114};
-double fac = (xsec[i]*35900)/(100000);
+double fac = (0.10*xsec[i]*41500)/(100000);
 hsignal[i]->Scale(fac);
 }
 
@@ -96,13 +96,12 @@ hstat->SetLineWidth(1);
 hs->GetYaxis()->SetTitle("Events");
 hs->GetXaxis()->SetTitle("M_{#tau_{h}#tau_{h},MET} [GeV]");
 hs->GetXaxis()->SetTitleOffset(1.1);
-hs->GetYaxis()->SetRangeUser(0.05,20);
 hs->SetMinimum(0.5);
 hs->SetMaximum(40);
 c1->Update();
 c1->Modified();
 
-        double y_legend = hs->GetMaximum() + 45;
+        double y_legend = hs->GetMaximum() + 40;
         double x_legend = 170;
         TLatex *   tex = new TLatex(x_legend,y_legend,"CMS");
 //      TLatex *   tex = new TLatex(105,400,"CMS");
@@ -118,7 +117,7 @@ c1->Modified();
    tex1->Draw();
 
         double x_pos1 = x_legend+1050;
-        TLatex * tex2 = new TLatex(x_pos1,y_legend,"2016, 35.9 fb^{-1} (13 TeV)");
+        TLatex * tex2 = new TLatex(x_pos1,y_legend,"2017, 41.5 fb^{-1} (13 TeV)");
         tex2->SetTextAlign(20);
         tex2->SetTextFont(42);
         tex2->SetTextSize(0.0332915);
@@ -138,6 +137,6 @@ TLegend *legend=new TLegend(0.52,0.60,0.89,0.88);
 	legend->AddEntry(hstat,"Stat. Uncert.","fp");
 	legend->Draw();
 
-c1->SaveAs("bkg_ditau_2016.root");
-c1->SaveAs("bkg_ditau_2016.pdf");
+c1->SaveAs("bkg_ditau_2017.root");
+c1->SaveAs("bkg_ditau_2017.pdf");
 	}
