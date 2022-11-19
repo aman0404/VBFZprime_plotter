@@ -6,17 +6,17 @@ TCanvas *c1= new TCanvas("c1","stacked hists",0,0,600,600);
 TH1 *h[3], *hsignal[4], *hstat;
 Double_t bins[13] = {100,150,200,250,300,350,400,450,500,550,650,850, 1500};
 
-TFile *f1 = TFile::Open("fakebkg_mutau_2016.root");
+TFile *f1 = TFile::Open("fakebkg_mutau_2017.root");
 f1->GetObject("h1",h[0]);
 
-TFile *fstat = TFile::Open("fakebkg_mutau_2016.root");
+TFile *fstat = TFile::Open("fakebkg_mutau_2017.root");
 fstat->GetObject("h1",hstat);
 
-TFile *f2 = TFile::Open("ttbar_mutau_2016.root");
+TFile *f2 = TFile::Open("ttbar_mutau_2017.root");
 f2->GetObject("h1",h[1]);
 
-TFile *f3 = TFile::Open("prompt_mutau_2016.root");
-f3->GetObject("h1",h[2]);
+TFile *f3 = TFile::Open("prompt_mutau_2017.root");
+f3->GetObject("hist",h[2]);
 
 TFile *f4 = TFile::Open("VBF_Zprime_tau_tau_M_1000_gl_0_gh_1_kv_1p0.root");
 f4->GetObject("NDiJetCombinations/Muon1Tau1ReconstructableMass",hsignal[0]);
@@ -30,17 +30,15 @@ f6->GetObject("NDiJetCombinations/Muon1Tau1ReconstructableMass",hsignal[2]);
 TFile *f7 = TFile::Open("VBF_Zprime_WW_M_1250_gl_0_gh_1_kv_1p0.root");
 f7->GetObject("NDiJetCombinations/Muon1Tau1ReconstructableMass",hsignal[3]);
 
+h[0]->Scale(0.71/0.74);
+hstat->Scale(0.71/0.74);
 
-double lumi = 35900.;
+double lumi = 41500.;
 for(int i=0; i<4; i++){
 double xsec[4] = {0.1994, 0.02174, 0.8273, 0.06114};
 double fac = (xsec[i]*lumi)/(100000);
 hsignal[i]->Scale(fac);
 }
-
-
-h[0]->Scale(0.73/0.59);
-hstat->Scale(0.73/0.59);
 
 TH1F *hsig1 = (TH1F*)hsignal[0]->Rebin(12,"hsig1",bins);
 TH1F *hsig2 = (TH1F*)hsignal[1]->Rebin(12,"hsig2",bins);
@@ -86,7 +84,7 @@ hs->GetXaxis()->SetTitleOffset(1.1);
 c1->Update();
 c1->Modified();
 
-        double y_legend = hs->GetMaximum() + 600;
+        double y_legend = hs->GetMaximum() + 1000;
         double x_legend = 170;
         TLatex *   tex = new TLatex(x_legend,y_legend,"CMS");
 //      TLatex *   tex = new TLatex(105,400,"CMS");
@@ -102,7 +100,7 @@ c1->Modified();
    tex1->Draw();
 
         double x_pos1 = x_legend+1050;
-        TLatex * tex2 = new TLatex(x_pos1,y_legend,"2016, 35.9 fb^{-1} (13 TeV)");
+        TLatex * tex2 = new TLatex(x_pos1,y_legend,"2017, 41.5 fb^{-1} (13 TeV)");
         tex2->SetTextAlign(20);
         tex2->SetTextFont(42);
         tex2->SetTextSize(0.0332915);
@@ -120,6 +118,6 @@ TLegend *legend=new TLegend(0.52,0.65,0.89,0.88);
 	legend->AddEntry(hstat,"Stat. Uncert.","fp");
 	legend->Draw();
 
-c1->SaveAs("bkg_mutau_2016.root");
-c1->SaveAs("bkg_mutau_2016.pdf");
+c1->SaveAs("bkg_mutau_2017.root");
+c1->SaveAs("bkg_mutau_2017.pdf");
 	}
