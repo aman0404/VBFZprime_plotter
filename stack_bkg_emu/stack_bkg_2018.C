@@ -7,25 +7,29 @@ TH1 *h[5], *hsignal[4], *hstat;
 //Double_t bins[13] = {100,150,200,250,300,350,400,450,500,550,650,850, 1500};
 //Double_t bins[16] = {100,120,135,150,180,210,240,270,300,350,400,450,500,550,600,1500};
 
+//Double_t bins[17] = {100,120,135,150,180,210,240,270,300,350,400,450,500,550,600, 850,1500};
+//Double_t bins[18] = {100,120,135,150,180,210,240,270,300,350,400,450,500,550,600,700, 850,1500};
+
 Double_t bins[19] = {100,120,135,150,180,210,240,270,300,350,400,450,500,550,600,700,850,1000,1500};
-TFile *f1 = TFile::Open("2016bkg/DYJetsToLL_emu_2016.root");
+
+TFile *f1 = TFile::Open("2018bkg/org_files/DY+Jets_emu_2016.root");
 f1->GetObject("h1",h[0]);
 
-TFile *fstat = TFile::Open("2016bkg/DYJetsToLL_emu_2016.root");
+TFile *fstat = TFile::Open("2018bkg/org_files/DY+Jets_emu_2016.root");
 fstat->GetObject("h1",hstat);
 
-TFile *f2 = TFile::Open("2016bkg/W+Jets_emu_2016.root");
+TFile *f2 = TFile::Open("2018bkg/org_files/W+Jets_emu_2016.root");
 f2->GetObject("h1",h[1]);
 
-TFile *f3 = TFile::Open("2016bkg/ttbar_emu_new_2016_emu_2016.root");
-//TFile *f3 = TFile::Open("2016bkg/tbar{t}_emu_2016.root");
+TFile *f3 = TFile::Open("2018bkg/org_files/ttbar_emu_new_2018_emu_2016.root");
+//TFile *f3 = TFile::Open("2018bkg/org_files/tt+X_emu_2016.root");
 f3->GetObject("h1",h[2]);
 
 
-TFile *f4 = TFile::Open("2016bkg/SingleTop_emu_2016.root");
+TFile *f4 = TFile::Open("2018bkg/org_files/SingleTop_emu_2016.root");
 f4->GetObject("h1",h[3]);
 
-TFile *f5 = TFile::Open("2016bkg/VV_emu_2016.root");
+TFile *f5 = TFile::Open("2018bkg/org_files/VV_tri_emu_2016.root");
 f5->GetObject("h1",h[4]);
 
 
@@ -42,7 +46,7 @@ TFile *f71 = TFile::Open("VBF_Zprime_WW_M_1250_gl_0_gh_1_kv_1p0.root");
 f71->GetObject("NRecoBJet/Muon1Electron1ReconstructableMass",hsignal[3]);
 
 
-double lumi = 35900.;
+double lumi = 59700.;
 for(int i=0; i<4; i++){
 double xsec[4] = {0.1994, 0.02174, 0.8273, 0.06114};
 double fac = (xsec[i]*lumi)/(100000);
@@ -102,7 +106,7 @@ hs->GetXaxis()->SetTitleOffset(1.1);
 c1->Update();
 c1->Modified();
 
-        double y_legend = hs->GetMaximum() + 350;
+        double y_legend = hs->GetMaximum() + 370;
         double x_legend = 170;
         TLatex *   tex = new TLatex(x_legend,y_legend,"CMS");
 //      TLatex *   tex = new TLatex(105,400,"CMS");
@@ -118,7 +122,7 @@ c1->Modified();
    tex1->Draw();
 
         double x_pos1 = x_legend+1050;
-        TLatex * tex2 = new TLatex(x_pos1,y_legend,"2016, 35.9 fb^{-1} (13 TeV)");
+        TLatex * tex2 = new TLatex(x_pos1,y_legend,"2018, 59.7 fb^{-1} (13 TeV)");
         tex2->SetTextAlign(20);
         tex2->SetTextFont(42);
         tex2->SetTextSize(0.0332915);
@@ -138,6 +142,6 @@ TLegend *legend=new TLegend(0.52,0.59,0.89,0.88);
 	legend->AddEntry(hstat,"Stat. Uncert.","fp");
 	legend->Draw();
 
-c1->SaveAs("bkg_emu_2016.root");
-c1->SaveAs("bkg_emu_2016.pdf");
+c1->SaveAs("bkg_emu_2018.root");
+c1->SaveAs("bkg_emu_2018.pdf");
 	}
